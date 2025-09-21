@@ -1,0 +1,57 @@
+.child {
+    display: flex;
+    cursor: pointer;
+    background-color: lightblue;
+    height: 100px;
+    width: 100px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #333;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+#container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: end;
+    gap: 10px;
+    flex-wrap: wrap;
+    width: 340px;
+    margin: auto;
+    
+}
+.child:hover {
+      background-color: deepskyblue;
+      color: white;
+    }
+
+#state-message {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+#reset-button {
+  display: block;
+  margin: 20px auto;          /* center horizontally */
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: #0077cc;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+#reset-button:hover {
+  background-color: #005fa3;
+}
+
+#reset-button:active {
+  transform: scale(0.95);     /* little click effect */
+}
