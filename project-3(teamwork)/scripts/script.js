@@ -70,6 +70,9 @@ const data = [
     },
   },
 ];
+const detailedViewState = false; 
+
+
 function renderWalkers() {
   const container = document.getElementById("walker-list");
 
@@ -77,10 +80,7 @@ function renderWalkers() {
     const card = document.createElement("div");
     card.className = "col-md-4";
     card.role="button";
-    card.addEventListener("click", () => {
-      console.log(`Name: ${walker.name}"\nRating: "${walker.rating} "\nAvailability: "${walker.availability}"\nDescription: "${walker.description} ""\nHourly Rate: "${walker.hour_rate} €/hr`);
-    });
-
+    card.addEventListener("click", onCardClick.bind(null, walker));
     card.innerHTML = `
     <div class="card shadow-sm text-center m-2">
     <h2 class="text-center pb-1">${walker.name}</h2>
@@ -92,6 +92,21 @@ function renderWalkers() {
 
     container.appendChild(card);
   });
+}
+function onCardClick(walker){
+// fill modal content
+  document.querySelector("#walkerModal .modal-title").textContent = walker.name;
+  document.querySelector("#walkerModal .modal-body").innerHTML = `
+    <img src="${walker.image_url}" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
+    <p><b>Rating:</b> ${walker.rating} ⭐</p>
+    <p><b>Availability:</b> ${walker.availability}</p>
+    <p><b>Hourly Rate:</b> €${walker.hour_rate.toFixed(2)}/hr</p>
+    <p>${walker.description}</p>
+  `;
+
+  // show modal
+  const modal = new bootstrap.Modal(document.getElementById("walkerModal"));
+  modal.show();
 }
 
 document.addEventListener("DOMContentLoaded", renderWalkers);
