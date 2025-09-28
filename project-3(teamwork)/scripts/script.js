@@ -70,8 +70,7 @@ const data = [
     },
   },
 ];
-const detailedViewState = false; 
-
+const detailedViewState = false;
 
 function renderWalkers() {
   const container = document.getElementById("walker-list");
@@ -79,7 +78,7 @@ function renderWalkers() {
   data.forEach((walker) => {
     const card = document.createElement("div");
     card.className = "col-md-4";
-    card.role="button";
+    card.role = "button";
     card.addEventListener("click", onCardClick.bind(null, walker));
     card.innerHTML = `
     <div class="card shadow-sm text-center m-2">
@@ -93,19 +92,44 @@ function renderWalkers() {
     container.appendChild(card);
   });
 }
-function onCardClick(walker){
-// fill modal content
+function onCardClick(walker) {
+  // fill modal content
   document.querySelector("#walkerModal .modal-title").textContent = walker.name;
   document.querySelector("#walkerModal .modal-body").innerHTML = `
-    <img src="${walker.image_url}" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
+    <img src="${
+      walker.image_url
+    }" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
     <p><b>Rating:</b> ${walker.rating} ⭐</p>
     <p><b>Availability:</b> ${walker.availability}</p>
     <p><b>Hourly Rate:</b> €${walker.hour_rate.toFixed(2)}/hr</p>
     <p>${walker.description}</p>
+    <h5>Location</h5>
+    <div id="mapid" style="height: 200px; width:100%"></div>
+    
   `;
 
   // show modal
-  const modal = new bootstrap.Modal(document.getElementById("walkerModal"));
+  const modalEl = document.getElementById("walkerModal");
+  const modal = new bootstrap.Modal(modalEl);
+
+  // when modal finishes showing, fix map size
+  modalEl.addEventListener(
+    "shown.bs.modal",
+    () => {
+      const map = L.map("mapid").setView(
+        [walker.location.latitude, walker.location.longitude],
+        16
+      );
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "© OpenStreetMap contributors",
+      }).addTo(map);
+      L.marker([walker.location.latitude, walker.location.longitude])
+        .addTo(map)
+        .bindPopup(`<b>${walker.name}</b>`) // popup content
+    },
+    // only run once per open
+  );
+
   modal.show();
 }
 
