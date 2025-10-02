@@ -127,7 +127,7 @@ function onCardClick(walker) {
         .addTo(map)
         .bindPopup(`<b>${walker.name}</b>`) // popup content
     },
-    // only run once per open
+    { once: true } // only run once per open
   );
 
   modal.show();
